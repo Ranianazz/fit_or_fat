@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cozy Beach • First Person</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="scene">
+      <!-- Sky & Sun -->
+      <div class="sky">
+        <div class="sun"></div>
+      </div>
+
+      <!-- Ocean -->
+      <div class="ocean">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <div class="foam"></div>
+      </div>
+
+      <!-- Beach -->
+      <div class="beach"></div>
+
+      <!-- Palm Trees -->
+      <div class="palm palm-left"></div>
+      <div class="palm palm-right"></div>
+
+      <!-- Horizon glow -->
+      <div class="horizon-glow"></div>
+    </div>
+
+    <!-- UI -->
+    <div class="instructions">
+      <strong>WASD / Arrow Keys</strong> — Walk<br />
+      <strong>Move Mouse</strong> — Look around<br />
+      <strong>Click</strong> — Lock pointer for immersion
+    </div>
+
+    <button id="mute-btn">🔊 Sound On</button>
+
+    <audio id="wave-sound" loop>
+      <source
+        src="https://www.soundjay.com/nature/sounds/waves-1.mp3"
+        type="audio/mpeg"
+      />
+      Your browser does not support the audio element.
+    </audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>
