@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fit or Fat Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Fit or Fat</h1>
+    <p id="status">Stay healthy!</p>
+
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+    <script src="script.js"></script>
+  </body>
+</html>

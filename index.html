@@ -1,26 +1,41 @@
 <!doctype html>
+<!-- Reference: Standard HTML5 document declaration (MDN Web Docs - HTML5) -->
 <html lang="en">
+  <!-- Reference: HTML root element with language attribute (W3C HTML Specification) -->
   <head>
+    <!-- Reference: Document head section (MDN) -->
     <meta charset="UTF-8" />
+    <!-- Reference: Declares UTF-8 character encoding (W3C Recommendation) -->
+    <!-- Reference: Viewport meta tag for responsive design (MDN - Viewport) -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
     <title>Fit or Fat - Catch Healthy Food!</title>
+    <!-- Reference: Page title (HTML Standard) -->
     <link rel="stylesheet" href="style.css" />
+    <!-- Reference: Links external CSS file (MDN - <link> element) -->
   </head>
+  <!-- Reference: Closing head tag -->
   <body>
+    <!-- Reference: Body element containing visible content (HTML Living Standard) -->
     <h1>🥗 FIT or FAT 🍔</h1>
+    <!-- Reference: Main heading with emojis (HTML5) -->
+
     <div id="status">
+      <!-- Reference: Div container with id for status message (HTML) -->
       ✨ Catch salads → faster & thinner! Avoid burgers → 5 burgers = GAME OVER
       ✨
     </div>
-
+    <!-- Reference: Closing status div -->
+    <!-- Reference: Main game container div (HTML) -->
     <div
       class="game-container"
       style="position: relative; display: inline-block"
     >
       <canvas id="gameCanvas" width="400" height="600"></canvas>
+      <!-- Reference: HTML5 Canvas element for game rendering (MDN - Canvas API) -->
+      <!-- Reference: Game Over overlay layer -->
       <div
         id="gameOverLayer"
         style="
@@ -33,10 +48,16 @@
           border-radius: 18px;
         "
       ></div>
+      <!-- Reference: Closing game over layer div -->
     </div>
+    <!-- Reference: Closing game container div -->
 
     <div class="controls-hint">◀ LEFT ARROW • RIGHT ARROW ▶</div>
+    <!-- Reference: Controls instruction text (HTML) -->
 
     <script src="script.js"></script>
+    <!-- Reference: Loads external JavaScript file (MDN - <script>) -->
   </body>
+  <!-- Reference: Closing body tag -->
 </html>
+<!-- Reference: Closing html tag (HTML Standard) -->

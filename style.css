@@ -1,141 +1,173 @@
 * {
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  /* Reference: Universal selector (CSS Selectors Level 4 - W3C) */
+  user-select: none; /* Reference: Prevents text selection (MDN - user-select) */
+  -webkit-tap-highlight-color: transparent; /* Reference: Removes tap highlight on mobile Safari (WebKit CSS) */
 }
 
 body {
-  text-align: center;
+  /* Reference: Styles the <body> element (CSS Cascade) */
+  text-align: center; /* Reference: Centers inline content (CSS Text Module) */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* Reference: Font stack (CSS Fonts Module Level 4) */
   background: linear-gradient(145deg, #c0e0c8 0%, #9bbf9f 100%);
-  margin: 0;
-  padding: 20px;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  /* Reference: CSS Gradients (CSS Images Module Level 3 - MDN) */
+  margin: 0; /* Reference: Removes default margin (CSS Box Model) */
+  padding: 20px; /* Reference: Adds internal spacing (CSS Box Model) */
+  min-height: 100vh; /* Reference: Ensures full viewport height (MDN - viewport units) */
+  display: flex; /* Reference: CSS Flexible Box Layout (CSS Flexbox - W3C) */
+  justify-content: center; /* Reference: Centers children horizontally (Flexbox) */
+  align-items: center; /* Reference: Centers children vertically (Flexbox) */
+  flex-direction: column; /* Reference: Stacks children vertically (Flexbox) */
 }
 
 .game-container {
-  position: relative;
-  display: inline-block;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
-  border-radius: 24px;
-  background: #1e2a2e;
-  padding: 8px;
+  /* Reference: Class selector for game wrapper (CSS Selectors) */
+  position: relative; /* Reference: Establishes positioning context (CSS Positioned Layout) */
+  display: inline-block; /* Reference: Shrinks container to content size (CSS Display) */
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3); /* Reference: CSS Box Shadow (CSS Backgrounds and Borders - MDN) */
+  border-radius: 24px; /* Reference: Rounded corners (CSS Borders) */
+  background: #1e2a2e; /* Reference: Solid background color (CSS Color Module) */
+  padding: 8px; /* Reference: Inner spacing (CSS Box Model) */
 }
 
 h1 {
-  color: #2c3e50;
-  background: rgba(255, 248, 205, 0.8);
-  display: inline-block;
-  padding: 8px 24px;
-  border-radius: 60px;
-  font-size: 2.2rem;
-  margin: 0 0 12px 0;
-  letter-spacing: 2px;
-  backdrop-filter: blur(2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Reference: Style for main heading (HTML + CSS) */
+  color: #2c3e50; /* Reference: Text color (CSS Color) */
+  background: rgba(
+    255,
+    248,
+    205,
+    0.8
+  ); /* Reference: Semi-transparent background (CSS Color - rgba) */
+  display: inline-block; /* Reference: Makes block element inline (CSS Display) */
+  padding: 8px 24px; /* Reference: Padding shorthand (CSS Box Model) */
+  border-radius: 60px; /* Reference: Large rounded corners (CSS Borders) */
+  font-size: 2.2rem; /* Reference: Relative font sizing (CSS Fonts) */
+  margin: 0 0 12px 0; /* Reference: Margin shorthand (CSS Box Model) */
+  letter-spacing: 2px; /* Reference: Space between letters (CSS Text) */
+  backdrop-filter: blur(
+    2px
+  ); /* Reference: Backdrop blur effect (CSS Filter Effects) */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Reference: Box shadow (MDN) */
 }
 
 #status {
-  font-weight: bold;
-  font-size: 1.4rem;
-  min-height: 52px;
-  color: #1e2a2e;
-  background: #fef9e8;
-  display: inline-block;
-  padding: 8px 28px;
-  border-radius: 40px;
-  margin: 12px auto;
-  box-shadow:
+  /* Reference: ID selector for status message (CSS Selectors) */
+  font-weight: bold; /* Reference: Bold text (CSS Fonts) */
+  font-size: 1.4rem; /* Reference: Font size (CSS Fonts) */
+  min-height: 52px; /* Reference: Minimum height (CSS Box Model) */
+  color: #1e2a2e; /* Reference: Text color (CSS Color) */
+  background: #fef9e8; /* Reference: Background color (CSS Color) */
+  display: inline-block; /* Reference: Display behavior (CSS Display) */
+  padding: 8px 28px; /* Reference: Padding (CSS Box Model) */
+  border-radius: 40px; /* Reference: Rounded corners (CSS Borders) */
+  margin: 12px auto; /* Reference: Margin with auto centering (CSS Box Model) */
+  box-shadow:                                        /* Reference: Multiple shadows (CSS Backgrounds) */
     inset 0 1px 4px #0001,
     0 4px 8px #0001;
-  backdrop-filter: blur(4px);
-  font-weight: 600;
+  backdrop-filter: blur(
+    4px
+  ); /* Reference: Backdrop filter (CSS Filter Effects) */
+  font-weight: 600; /* Reference: Font weight (CSS Fonts) */
 }
 
 canvas {
-  display: block;
-  margin: 0 auto;
-  border-radius: 18px;
-  background: #fef7e6;
-  cursor: pointer;
-  box-shadow:
+  /* Reference: Styles the <canvas> element (MDN Canvas API + CSS) */
+  display: block; /* Reference: Removes inline spacing (CSS Display) */
+  margin: 0 auto; /* Reference: Centers the canvas (CSS Box Model) */
+  border-radius: 18px; /* Reference: Rounded corners (CSS Borders) */
+  background: #fef7e6; /* Reference: Canvas background color (CSS Color) */
+  cursor: pointer; /* Reference: Changes mouse cursor (CSS User Interface) */
+  box-shadow:                                        /* Reference: Multiple box shadows (CSS Backgrounds) */
     0 0 0 3px #f3b33d,
     0 12px 28px black;
 }
 
 /* Game Over Overlay - inside canvas frame but absolute over canvas */
+/* Reference: CSS Comment (CSS Syntax Module) */
 .game-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(4px);
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  z-index: 20;
-  transition: all 0.2s ease;
-  pointer-events: auto;
+  /* Reference: Class for game over screen (CSS Selectors) */
+  position: absolute; /* Reference: Absolute positioning (CSS Position) */
+  top: 0; /* Reference: Top offset (CSS Position) */
+  left: 0; /* Reference: Left offset (CSS Position) */
+  width: 100%; /* Reference: Full width (CSS Box Model) */
+  height: 100%; /* Reference: Full height (CSS Box Model) */
+  background: rgba(
+    0,
+    0,
+    0,
+    0.75
+  ); /* Reference: Semi-transparent overlay (CSS Color) */
+  backdrop-filter: blur(4px); /* Reference: Blur effect (CSS Filters) */
+  border-radius: 18px; /* Reference: Rounded corners (CSS Borders) */
+  display: flex; /* Reference: Flexbox container (CSS Flexbox) */
+  flex-direction: column; /* Reference: Vertical stacking (Flexbox) */
+  justify-content: center; /* Reference: Vertical centering (Flexbox) */
+  align-items: center; /* Reference: Horizontal centering (Flexbox) */
+  gap: 20px; /* Reference: Space between flex items (CSS Box Alignment) */
+  z-index: 20; /* Reference: Stacking order (CSS Position - z-index) */
+  transition: all 0.2s ease; /* Reference: Smooth transition (CSS Transitions) */
+  pointer-events: auto; /* Reference: Enables mouse events (CSS Pointer Events) */
 }
 
 .game-over-banner {
-  background: #d62828;
-  color: #ffdd99;
-  font-size: 3rem;
-  font-weight: 900;
-  padding: 12px 32px;
-  border-radius: 60px;
-  letter-spacing: 4px;
-  text-shadow: 4px 4px 0 #6b1e1e;
-  box-shadow: 0 8px 0 #6b1e1e;
-  transform: rotate(-2deg);
-  font-family: "Segoe UI", Impact, sans-serif;
+  /* Reference: Class for "Game Over" text banner (CSS Selectors) */
+  background: #d62828; /* Reference: Background color (CSS Color) */
+  color: #ffdd99; /* Reference: Text color (CSS Color) */
+  font-size: 3rem; /* Reference: Large font size (CSS Fonts) */
+  font-weight: 900; /* Reference: Extra bold (CSS Fonts) */
+  padding: 12px 32px; /* Reference: Padding (CSS Box Model) */
+  border-radius: 60px; /* Reference: Rounded shape (CSS Borders) */
+  letter-spacing: 4px; /* Reference: Letter spacing (CSS Text) */
+  text-shadow: 4px 4px 0 #6b1e1e; /* Reference: Text shadow (CSS Text Decoration) */
+  box-shadow: 0 8px 0 #6b1e1e; /* Reference: Box shadow (CSS Backgrounds) */
+  transform: rotate(-2deg); /* Reference: Rotation transform (CSS Transforms) */
+  font-family:
+    "Segoe UI", Impact, sans-serif; /* Reference: Font family (CSS Fonts) */
 }
 
 .play-again-btn {
-  background: #f4a261;
-  border: none;
-  font-size: 1.8rem;
-  font-weight: bold;
-  padding: 12px 28px;
-  border-radius: 60px;
-  color: #2c3e2f;
-  cursor: pointer;
-  transition: 0.1s linear;
-  font-family: inherit;
-  box-shadow: 0 6px 0 #bc6c25;
-  letter-spacing: 1px;
+  /* Reference: Class for restart button (CSS Selectors) */
+  background: #f4a261; /* Reference: Button background (CSS Color) */
+  border: none; /* Reference: Removes border (CSS Borders) */
+  font-size: 1.8rem; /* Reference: Font size (CSS Fonts) */
+  font-weight: bold; /* Reference: Bold text (CSS Fonts) */
+  padding: 12px 28px; /* Reference: Padding (CSS Box Model) */
+  border-radius: 60px; /* Reference: Rounded button (CSS Borders) */
+  color: #2c3e2f; /* Reference: Text color (CSS Color) */
+  cursor: pointer; /* Reference: Pointer cursor (CSS User Interface) */
+  transition: 0.1s linear; /* Reference: Transition effect (CSS Transitions) */
+  font-family: inherit; /* Reference: Inherit font from parent (CSS Fonts) */
+  box-shadow: 0 6px 0 #bc6c25; /* Reference: Box shadow (CSS Backgrounds) */
+  letter-spacing: 1px; /* Reference: Letter spacing (CSS Text) */
 }
 
 .play-again-btn:active {
-  transform: translateY(3px);
-  box-shadow: 0 3px 0 #bc6c25;
+  /* Reference: Active state pseudo-class (CSS Selectors) */
+  transform: translateY(
+    3px
+  ); /* Reference: Move button down on click (CSS Transforms) */
+  box-shadow: 0 3px 0 #bc6c25; /* Reference: Reduced shadow on press (CSS Backgrounds) */
 }
 
 .stats {
-  background: #2d3e40cc;
-  backdrop-filter: blur(4px);
-  color: white;
-  padding: 5px 12px;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  /* Reference: Class for statistics display (CSS Selectors) */
+  background: #2d3e40cc; /* Reference: Semi-transparent background (CSS Color) */
+  backdrop-filter: blur(4px); /* Reference: Backdrop blur (CSS Filters) */
+  color: white; /* Reference: Text color (CSS Color) */
+  padding: 5px 12px; /* Reference: Padding (CSS Box Model) */
+  border-radius: 30px; /* Reference: Rounded corners (CSS Borders) */
+  font-size: 1.1rem; /* Reference: Font size (CSS Fonts) */
+  font-weight: bold; /* Reference: Bold text (CSS Fonts) */
 }
 
 .controls-hint {
-  margin-top: 18px;
-  background: #e9c891;
-  border-radius: 40px;
-  padding: 8px 24px;
-  font-weight: bold;
-  color: #2d3e2d;
-  display: inline-block;
+  /* Reference: Class for control instructions (CSS Selectors) */
+  margin-top: 18px; /* Reference: Top margin (CSS Box Model) */
+  background: #e9c891; /* Reference: Background color (CSS Color) */
+  border-radius: 40px; /* Reference: Rounded corners (CSS Borders) */
+  padding: 8px 24px; /* Reference: Padding (CSS Box Model) */
+  font-weight: bold; /* Reference: Bold text (CSS Fonts) */
+  color: #2d3e2d; /* Reference: Text color (CSS Color) */
+  display: inline-block; /* Reference: Display type (CSS Display) */
 }
