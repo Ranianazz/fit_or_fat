@@ -1,10 +1,9 @@
 // Canvas elements
-const canvas = document.getElementById("gameCanvas"); // Reference: Gets canvas element by ID (MDN - document.getElementById)
-const ctx = canvas.getContext("2d"); // Reference: Gets 2D rendering context (MDN - CanvasRenderingContext2D)
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
 // Game state
 let player = {
-  // Reference: Declares player object with properties (JavaScript Object Literal)
   x: 175,
   y: 530,
   width: 50,
@@ -13,96 +12,189 @@ let player = {
   size: 60,
 };
 
-let foods = []; // Reference: Empty array to store falling food items (MDN - Array)
-let score = 0; // Reference: Initializes score variable (JavaScript Variables)
-let burgerHitCount = 0; // Reference: Tracks number of burgers caught (JavaScript Variables)
-let gameActive = true; // Reference: Boolean flag for game state (JavaScript Booleans)
+let foods = [];
+let score = 0;
+let burgerHitCount = 0;
+let gameActive = true;
 
 // Controls
-let keys = { left: false, right: false }; // Reference: Object to track keyboard input state (JavaScript Object)
+let keys = { left: false, right: false };
 
-// Load images
-const playerImg = new Image(); // Reference: Creates new Image object (MDN - HTMLImageElement)
-playerImg.src = "boy1.png"; // Reference: Sets image source (MDN - Image.src)
+// Character selection
+let selectedCharacter = "boy";
 
-const saladImg = new Image(); // Reference: Creates salad image object (MDN - HTMLImageElement)
-saladImg.src = "salad1.png"; // Reference: Sets salad image source
+// Load images dynamically based on character
+let playerImg = new Image();
 
-const burgerImg = new Image(); // Reference: Creates burger image object (MDN - HTMLImageElement)
-burgerImg.src = "hamburger.png"; // Reference: Sets burger image source
+function updateCharacterImage() {
+  if (selectedCharacter === "boy") {
+    playerImg.src = "boy1.png";
+  } else if (selectedCharacter === "girl") {
+    playerImg.src = "girl.png";
+  } else if (selectedCharacter === "unicorn") {
+    playerImg.src = "unicorn.png";
+  }
+  // Fallback: create colored canvas drawings for reliable display
+  //createCharacterImage();
+}
 
-// Food spawn interval variable
-let spawnInterval = null; // Reference: Variable to store setInterval ID (MDN - setInterval)
+// function createCharacterImage() {
+//   const offCanvas = document.createElement("canvas");
+//   offCanvas.width = 60;
+//   offCanvas.height = 60;
+//   const offCtx = offCanvas.getContext("2d");
 
-// ========== GAME OVER OVERLAY FUNCTIONS ==========
+//   if (selectedCharacter === "boy") {
+//     offCtx.fillStyle = "#FFD966";
+//     offCtx.beginPath();
+//     offCtx.arc(30, 28, 18, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.fillStyle = "#000";
+//     offCtx.beginPath();
+//     offCtx.arc(22, 24, 2.5, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.beginPath();
+//     offCtx.arc(38, 24, 2.5, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.beginPath();
+//     offCtx.arc(30, 35, 8, 0.1, Math.PI - 0.1);
+//     offCtx.stroke();
+//     offCtx.fillStyle = "#4285F4";
+//     offCtx.fillRect(24, 42, 12, 18);
+//   } else if (selectedCharacter === "girl") {
+//     offCtx.fillStyle = "#FFB7C5";
+//     offCtx.beginPath();
+//     offCtx.arc(30, 26, 18, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.fillStyle = "#000";
+//     offCtx.beginPath();
+//     offCtx.arc(22, 22, 2.5, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.beginPath();
+//     offCtx.arc(38, 22, 2.5, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.beginPath();
+//     offCtx.arc(30, 33, 8, 0.1, Math.PI - 0.1);
+//     offCtx.stroke();
+//     offCtx.fillStyle = "#9C27B0";
+//     offCtx.fillRect(24, 40, 12, 18);
+//   } else {
+//     offCtx.fillStyle = "#E0BBE4";
+//     offCtx.beginPath();
+//     offCtx.arc(30, 28, 18, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.fillStyle = "#000";
+//     offCtx.beginPath();
+//     offCtx.arc(22, 24, 2.5, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.beginPath();
+//     offCtx.arc(38, 24, 2.5, 0, Math.PI * 2);
+//     offCtx.fill();
+//     offCtx.beginPath();
+//     offCtx.arc(30, 35, 8, 0.1, Math.PI - 0.1);
+//     offCtx.stroke();
+//     offCtx.fillStyle = "#FFD700";
+//     offCtx.beginPath();
+//     offCtx.moveTo(55, 10);
+//     offCtx.lineTo(65, 3);
+//     offCtx.lineTo(60, 15);
+//     offCtx.fill();
+//     offCtx.fillStyle = "#FF6B6B";
+//     offCtx.fillRect(24, 42, 12, 18);
+//   }
+//   playerImg.src = offCanvas.toDataURL();
+// }
+
+const saladImg = new Image();
+saladImg.src = "salad1.png";
+
+const burgerImg = new Image();
+burgerImg.src = "hamburger.png";
+
+let spawnInterval = null;
+
+// Start Screen Logic
+const startScreen = document.getElementById("startScreen");
+const gameWrapper = document.getElementById("gameWrapper");
+const playGameBtn = document.getElementById("playGameBtn");
+const charCards = document.querySelectorAll(".char-card");
+
+charCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    charCards.forEach((c) => c.classList.remove("selected"));
+    card.classList.add("selected");
+    selectedCharacter = card.getAttribute("data-character");
+    playGameBtn.disabled = false;
+  });
+});
+
+playGameBtn.addEventListener("click", () => {
+  startScreen.style.display = "none";
+  gameWrapper.style.display = "flex";
+  gameWrapper.style.flexDirection = "column";
+  gameWrapper.style.alignItems = "center";
+  updateCharacterImage();
+  initGame();
+  resetGame();
+  gameActive = true;
+  if (spawnInterval) clearInterval(spawnInterval);
+  spawnInterval = setInterval(() => {
+    if (gameActive) spawnFood();
+  }, 950);
+});
+
+// Game Over Functions
 function showGameOverlay() {
-  // Reference: Function declaration (MDN - Functions)
-  // Remove existing overlay if any
   const existingOverlay = document.getElementById("dynamicOverlay");
-  // Reference: Checks for existing overlay (MDN - getElementById)
-  if (existingOverlay) existingOverlay.remove(); // Reference: Removes DOM element if exists (MDN - Node.remove())
+  if (existingOverlay) existingOverlay.remove();
 
-  // Create overlay element
-  const overlay = document.createElement("div"); // Reference: Creates new div element (MDN - document.createElement)
-  overlay.id = "dynamicOverlay"; // Reference: Sets element ID (MDN - Element.id)
-  overlay.className = "game-overlay"; // Reference: Assigns CSS class (MDN - Element.className)
+  const overlay = document.createElement("div");
+  overlay.id = "dynamicOverlay";
+  overlay.className = "game-overlay";
 
-  // Banner
-  const banner = document.createElement("div"); // Reference: Creates banner div (MDN - createElement)
-  banner.className = "game-over-banner"; // Reference: Sets banner class (MDN)
-  banner.innerText = "💀 GAME OVER 💀"; // Reference: Sets text content (MDN - Node.innerText)
+  const banner = document.createElement("div");
+  banner.className = "game-over-banner";
+  banner.innerText = "💀 GAME OVER 💀";
 
-  // Burger count message
-  const burgerCountMsg = document.createElement("div"); // Reference: Creates message element (MDN)
-  burgerCountMsg.innerText = `🍔 Burgers caught: ${burgerHitCount} / 5 🍔`;
-  // Reference: Uses template literal (MDN - Template literals)
-  burgerCountMsg.style.color = "#ffdab9"; // Reference: Inline CSS styling (MDN - HTMLElement.style)
-  burgerCountMsg.style.fontSize = "1.4rem"; // Reference: Inline style (MDN)
-  burgerCountMsg.style.fontWeight = "bold"; // Reference: Inline style (MDN)
-  burgerCountMsg.style.backgroundColor = "#00000088"; // Reference: Inline style with rgba (MDN)
-  burgerCountMsg.style.padding = "6px 16px"; // Reference: Inline style (MDN)
-  burgerCountMsg.style.borderRadius = "32px"; // Reference: Inline style (MDN)
+  const burgerCountMsg = document.createElement("div");
+  burgerCountMsg.innerText = `🍔 Burgers caught: ${burgerHitCount} / 3 🍔`;
+  burgerCountMsg.style.color = "#ffdab9";
+  burgerCountMsg.style.fontSize = "1.4rem";
+  burgerCountMsg.style.fontWeight = "bold";
+  burgerCountMsg.style.backgroundColor = "#00000088";
+  burgerCountMsg.style.padding = "6px 16px";
+  burgerCountMsg.style.borderRadius = "32px";
 
-  // Play again button
-  const playBtn = document.createElement("button"); // Reference: Creates button element (MDN)
-  playBtn.innerText = "🔄 PLAY AGAIN 🔄"; // Reference: Sets button text (MDN)
-  playBtn.className = "play-again-btn"; // Reference: Assigns CSS class (MDN)
+  const playBtn = document.createElement("button");
+  playBtn.innerText = "🔄 PLAY AGAIN 🔄";
+  playBtn.className = "play-again-btn";
 
   playBtn.addEventListener("click", (e) => {
-    // Reference: Adds click event listener (MDN - EventTarget.addEventListener)
-    e.stopPropagation(); // Reference: Stops event bubbling (MDN - Event.stopPropagation)
-    resetGame(); // Reference: Calls reset function
+    e.stopPropagation();
+    resetGame();
   });
 
-  overlay.appendChild(banner); // Reference: Appends child element (MDN - Node.appendChild)
+  overlay.appendChild(banner);
   overlay.appendChild(burgerCountMsg);
   overlay.appendChild(playBtn);
 
-  // Attach to game container
   const gameContainer = document.querySelector(".game-container");
-  // Reference: Selects container by class (MDN - document.querySelector)
-  gameContainer.appendChild(overlay); // Reference: Appends overlay to container (MDN)
+  gameContainer.appendChild(overlay);
 }
 
 function triggerGameOver() {
-  // Reference: Function to end the game (JavaScript Functions)
-  if (!gameActive) return; // Reference: Early return guard clause
-  gameActive = false; // Reference: Sets game state to inactive
-  document.getElementById("status").innerHTML = // Reference: Updates status message (MDN)
-    "💀 GAME OVER! You ate 5 burgers! Click PLAY AGAIN 💀";
-  showGameOverlay(); // Reference: Calls overlay function
+  if (!gameActive) return;
+  gameActive = false;
+  document.getElementById("status").innerHTML =
+    "💀 GAME OVER! You ate 3 burgers! Click PLAY AGAIN 💀";
+  showGameOverlay();
 }
 
-// ========== RESET GAME ==========
 function resetGame() {
-  // Reference: Function to reset game state
-  // Remove overlay
-  const overlay = document.getElementById("dynamicOverlay"); // Reference: Gets overlay element
-  if (overlay) overlay.remove(); // Reference: Removes overlay
+  const overlay = document.getElementById("dynamicOverlay");
+  if (overlay) overlay.remove();
 
-  // Reset player to original state
   player = {
-    // Reference: Reassigns player object
     x: canvas.width / 2 - 30,
     y: canvas.height - 65,
     width: 50,
@@ -111,38 +203,29 @@ function resetGame() {
     size: 60,
   };
 
-  // Ensure player stays within bounds
-  if (player.x < 0) player.x = 0; // Reference: Boundary checking
+  if (player.x < 0) player.x = 0;
   if (player.x + player.size > canvas.width)
     player.x = canvas.width - player.size;
   if (player.y + player.size > canvas.height)
     player.y = canvas.height - player.size;
   if (player.y < 0) player.y = 0;
 
-  // Reset game variables
-  foods = []; // Reference: Clears foods array
-  score = 0; // Reference: Resets score
-  burgerHitCount = 0; // Reference: Resets burger counter
-  gameActive = true; // Reference: Reactivates game
+  foods = [];
+  score = 0;
+  burgerHitCount = 0;
+  gameActive = true;
 
-  // Reset status message
-  document.getElementById("status").innerHTML = // Reference: Updates DOM text
-    "✨ Game restarted! Avoid 5 burgers! ✨";
+  document.getElementById("status").innerHTML =
+    "✨ Game restarted! Avoid 3 burgers! ✨";
 
-  // Reset controls
-  keys.left = false; // Reference: Resets key states
+  keys.left = false;
   keys.right = false;
 }
 
-// ========== SPAWN FOOD ==========
 function spawnFood() {
-  // Reference: Function to create new food item
-  if (!gameActive) return; // Reference: Guard clause
-
-  const isHealthy = Math.random() > 0.5; // Reference: Random boolean (MDN - Math.random)
-
+  if (!gameActive) return;
+  const isHealthy = Math.random() > 0.9;
   foods.push({
-    // Reference: Adds new object to array (MDN - Array.push)
     x: Math.random() * (canvas.width - 50),
     y: -40,
     size: 50,
@@ -151,34 +234,31 @@ function spawnFood() {
   });
 }
 
-// ========== DRAW FUNCTIONS ==========
 function drawPlayer() {
-  // Reference: Draws player image
-  let drawX = player.x; // Reference: Local variable for clamping
+  let drawX = player.x;
   let drawY = player.y;
-
-  // Clamp drawing position to keep full image within canvas
-  if (drawX < 0) drawX = 0; // Reference: Boundary clamping
+  if (drawX < 0) drawX = 0;
   if (drawX + player.size > canvas.width) drawX = canvas.width - player.size;
   if (drawY < 0) drawY = 0;
   if (drawY + player.size > canvas.height) drawY = canvas.height - player.size;
 
-  ctx.drawImage(playerImg, drawX, drawY, player.size, player.size);
-  // Reference: Draws image on canvas (MDN - CanvasRenderingContext2D.drawImage)
+  if (playerImg.complete && playerImg.src) {
+    ctx.drawImage(playerImg, drawX, drawY, player.size, player.size);
+  } else {
+    ctx.fillStyle = "#FFD966";
+    ctx.fillRect(drawX, drawY, player.size, player.size);
+  }
 
-  // Draw subtle outline
-  ctx.save(); // Reference: Saves canvas state (MDN)
-  ctx.shadowBlur = 0; // Reference: Disables shadow
-  ctx.strokeStyle = "#FFB347"; // Reference: Sets stroke color
-  ctx.lineWidth = 1.5; // Reference: Sets line width
-  ctx.strokeRect(drawX, drawY, player.size, player.size); // Reference: Draws rectangle outline (MDN)
-  ctx.restore(); // Reference: Restores canvas state
+  ctx.save();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = "#FFB347";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(drawX, drawY, player.size, player.size);
+  ctx.restore();
 }
 
 function drawFoods() {
-  // Reference: Draws all food items
   foods.forEach((food) => {
-    // Reference: Iterates array (MDN - Array.forEach)
     if (food.healthy) {
       ctx.drawImage(saladImg, food.x, food.y, food.size, food.size);
     } else {
@@ -188,35 +268,27 @@ function drawFoods() {
 }
 
 function drawUI() {
-  // Reference: Draws score and UI elements
-  // Score
-  ctx.fillStyle = "#272343"; // Reference: Sets fill color
-  ctx.font = "bold 24px 'Segoe UI'"; // Reference: Sets font (MDN)
-  ctx.fillText("🍎 " + score, 18, 48); // Reference: Draws text (MDN - fillText)
+  ctx.fillStyle = "#272343";
+  ctx.font = "bold 24px 'Segoe UI'";
+  ctx.fillText("🍎 " + score, 18, 48);
 
-  // Burger counter
   ctx.fillStyle = "#f4a261";
   ctx.font = "bold 18px monospace";
-  ctx.fillText("🍔 " + burgerHitCount + "/5", canvas.width - 100, 45);
+  ctx.fillText("🍔 " + burgerHitCount + "/3", canvas.width - 100, 45);
 
-  // Speed and size info
   ctx.font = "12px 'Segoe UI'";
   ctx.fillStyle = "#2b3b36";
-  ctx.fillText("speed: " + player.speed.toFixed(1), 12, 85); // Reference: Uses toFixed() (MDN - Number.toFixed)
-  ctx.fillText("size: " + Math.floor(player.size), 12, 105); // Reference: Uses Math.floor (MDN)
+  ctx.fillText("speed: " + player.speed.toFixed(1), 12, 85);
+  ctx.fillText("size: " + Math.floor(player.size), 12, 105);
 }
 
-// ========== UPDATE LOGIC ==========
 function updateFoods() {
-  // Reference: Updates food positions and collisions
   if (!gameActive) return;
 
   for (let i = foods.length - 1; i >= 0; i--) {
-    // Reference: Backward loop for safe splicing
     const food = foods[i];
-    food.y += food.speed; // Reference: Moves food downward
+    food.y += food.speed;
 
-    // Collision detection
     if (
       food.x < player.x + player.size &&
       food.x + food.size > player.x &&
@@ -224,42 +296,39 @@ function updateFoods() {
       food.y + food.size > player.y
     ) {
       if (food.healthy) {
-        player.speed += 0.35; // Reference: Increases speed on healthy food
+        player.speed += 0.35;
         if (player.speed > 12) player.speed = 12;
-        player.size = Math.max(38, player.size - 1.5); // Reference: Math.max (MDN)
-        score += 10;
+        player.size = Math.max(38, player.size - 1.5);
+        score += 1;
         document.getElementById("status").innerHTML =
-          "🥗 HEALTHY! +10 🥗 | Speed↑ Size↓";
+          "🥗 HEALTHY! +1 🥗 | Speed↑ Size↓";
       } else {
         player.speed = Math.max(2.2, player.speed - 0.7);
-        player.size = Math.min(90, player.size + 2.5); // Reference: Math.min (MDN)
-        score -= 5;
+        player.size = Math.min(90, player.size + 2.5);
+        score -= 1;
         burgerHitCount++;
 
         document.getElementById("status").innerHTML =
-          `🍔 JUNK! -5 pts | Burgers: ${burgerHitCount}/5 🍔 | Slower & Bigger!`;
+          `🍔 JUNK! -1 pts | Burgers: ${burgerHitCount}/3 🍔 | Slower & Bigger!`;
 
-        if (burgerHitCount >= 5) {
+        if (burgerHitCount >= 3) {
           triggerGameOver();
           return;
         }
       }
-      foods.splice(i, 1); // Reference: Removes item from array
+      foods.splice(i, 1);
       continue;
     }
 
-    // Remove food if off screen
     if (food.y > canvas.height + 100) {
       foods.splice(i, 1);
     }
   }
 
-  // Keep player fully within canvas bounds
   if (player.x < 0) player.x = 0;
   if (player.x + player.size > canvas.width)
     player.x = canvas.width - player.size;
 
-  // Keep player at bottom but ensure full visibility
   let desiredY = canvas.height - player.size - 5;
   if (desiredY < 0) desiredY = 0;
   player.y = desiredY;
@@ -269,103 +338,72 @@ function updateFoods() {
 }
 
 function movePlayer() {
-  // Reference: Handles player movement
   if (!gameActive) return;
-
   let newX = player.x;
   if (keys.left) newX -= player.speed;
   if (keys.right) newX += player.speed;
-
-  // Clamp to keep player fully inside canvas
   if (newX < 0) newX = 0;
   if (newX + player.size > canvas.width) newX = canvas.width - player.size;
-
   player.x = newX;
-
-  // Maintain bottom position
   let desiredY = canvas.height - player.size - 5;
   if (desiredY < 0) desiredY = 0;
   player.y = desiredY;
 }
 
-// ========== GAME LOOP ==========
 function gameLoop() {
-  // Reference: Main animation loop
-  // Clear canvas with background
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Reference: Clears canvas (MDN)
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#FEF2E0";
-  ctx.fillRect(0, 0, canvas.width, canvas.height); // Reference: Fills background
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw subtle grid
   for (let i = 0; i < canvas.width; i += 40) {
-    // Reference: For loop for grid lines
-    ctx.beginPath(); // Reference: Starts new path (MDN)
+    ctx.beginPath();
     ctx.strokeStyle = "#e0cfb1";
     ctx.lineWidth = 0.5;
     ctx.moveTo(i, 0);
     ctx.lineTo(i, canvas.height);
-    ctx.stroke(); // Reference: Draws line
+    ctx.stroke();
     ctx.moveTo(0, i);
     ctx.lineTo(canvas.width, i);
     ctx.stroke();
   }
 
-  // Update game logic only if active
   if (gameActive) {
     movePlayer();
     updateFoods();
   }
 
-  // Draw all elements
   drawPlayer();
   drawFoods();
   drawUI();
 
-  // Draw game over dim effect if needed
   if (!gameActive) {
-    ctx.globalAlpha = 0.5; // Reference: Sets transparency
+    ctx.globalAlpha = 0.5;
     ctx.fillStyle = "#2c2c2c";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1; // Reference: Resets alpha
+    ctx.globalAlpha = 1;
   }
 
-  requestAnimationFrame(gameLoop); // Reference: Requests next animation frame (MDN)
+  requestAnimationFrame(gameLoop);
 }
 
-// ========== INITIALIZATION ==========
 function initGame() {
-  // Reference: Game setup function
-  // Set initial player position
   player.x = canvas.width / 2 - 30;
   player.y = canvas.height - player.size - 5;
   player.speed = 5;
   player.size = 60;
-
-  // Ensure bounds
   if (player.x < 0) player.x = 0;
   if (player.x + player.size > canvas.width)
     player.x = canvas.width - player.size;
-
-  // Clear any existing spawn interval
-  if (spawnInterval) clearInterval(spawnInterval); // Reference: Clears previous interval (MDN)
-
-  // Start spawn interval
-  spawnInterval = setInterval(() => {
-    // Reference: Starts repeating timer
-    if (gameActive) spawnFood();
-  }, 950);
 }
 
-// ========== EVENT LISTENERS ==========
 document.addEventListener("keydown", (e) => {
-  // Reference: Keyboard down listener (MDN)
   if (!gameActive && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
     e.preventDefault();
     return;
   }
   if (e.key === "ArrowLeft") {
     keys.left = true;
-    e.preventDefault(); // Reference: Prevents default browser behavior
+    e.preventDefault();
   }
   if (e.key === "ArrowRight") {
     keys.right = true;
@@ -374,11 +412,9 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("keyup", (e) => {
-  // Reference: Keyboard up listener
   if (e.key === "ArrowLeft") keys.left = false;
   if (e.key === "ArrowRight") keys.right = false;
 });
 
-// Start the game
-initGame(); // Reference: Calls initialization
-gameLoop(); // Reference: Starts game loop
+// Start the game loop immediately (canvas is ready)
+gameLoop();
